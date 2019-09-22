@@ -9,10 +9,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Postgress client setup
-
+// Postgres Client Setup
 const { Pool } = require('pg');
-const pgClient = new Pool ({
+const pgClient = new Pool({
   user: keys.pgUser,
   host: keys.pgHost,
   database: keys.pgDatabase,
@@ -25,16 +24,17 @@ pgClient
   .query('CREATE TABLE IF NOT EXISTS values (number INT)')
   .catch(err => console.log(err));
 
-//Redis Client Setup
+// Redis Client Setup
 const redis = require('redis');
 const redisClient = redis.createClient({
-  port: keys.redisPort,
   host: keys.redisHost,
+  port: keys.redisPort,
   retry_strategy: () => 1000
 });
 const redisPublisher = redisClient.duplicate();
 
 // Express route handlers
+
 app.get('/', (req, res) => {
   res.send('Hi');
 });
@@ -60,11 +60,11 @@ app.post('/values', async (req, res) => {
 
   redisClient.hset('values', index, 'Nothing yet!');
   redisPublisher.publish('insert', index);
-  pgClient.query('INSERT INTO values(number) VALUES ($1)', [index]);
+  pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
 
   res.send({ working: true });
 });
 
 app.listen(5000, err => {
-  console.log('Listening on 5000');
+  console.log('Listening');
 });

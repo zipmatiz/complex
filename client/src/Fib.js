@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class Fib extends Component {
   state = {
-    SeenIndexes: [],
+    seenIndexes: [],
     values: {},
     index: ''
   };
@@ -25,7 +25,7 @@ class Fib extends Component {
     });
   }
 
-  handleSubmit = async (event) => {
+  handleSubmit = async event => {
     event.preventDefault();
 
     await axios.post('/api/values', {
@@ -59,7 +59,7 @@ class Fib extends Component {
           <label>Enter your index:</label>
           <input
             value={this.state.index}
-            onChange={event => this.setState ({ index: event.target.value })}
+            onChange={event => this.setState({ index: event.target.value })}
           />
           <button>Submit</button>
         </form>
@@ -70,7 +70,7 @@ class Fib extends Component {
         <h3>Calculated Values:</h3>
         {this.renderValues()}
       </div>
-    )
+    );
   }
 }
 
