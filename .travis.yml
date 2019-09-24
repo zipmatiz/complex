@@ -6,7 +6,7 @@ before_install:
   - docker build -t mkadmin/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run mkadmin/react-test -- --coverage
+  - docker run mkadmin/react-test npm run test -- --coverage
 
 after_success:
   - docker build -t dotski/multi-client ./client
